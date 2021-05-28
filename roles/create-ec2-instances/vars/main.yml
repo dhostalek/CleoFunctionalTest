@@ -1,0 +1,8 @@
+---
+# vars file for create-ec2-instances
+region_name: 'us-east-2'
+key_name: 'my_keypair'
+#ami_id: 'ami-0ba62214afa52bec7'
+ami_id: 'ami-077e31c4939f6a2f3'
+instance_type: 't2.micro'
+instance_name: 'jumpbox'

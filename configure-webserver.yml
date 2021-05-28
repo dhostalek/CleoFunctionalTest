@@ -1,0 +1,9 @@
+# configure webserver on an EC2 instance
+
+- hosts: jumpbox
+  remote_user: ec2-user
+  become: True
+  gather_facts: True
+  serial: true
+  roles:
+    - role: configure-webserver

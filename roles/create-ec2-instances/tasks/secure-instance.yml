@@ -1,0 +1,29 @@
+---
+# Gather IP facts from ipify.org, will be saved to ipify_public_ip
+- name: Get my public IP
+  ipify_facts:
+
+# Create Security Group and save the output into security_group
+- name: Create Security Group
+  ec2_group:
+    name: "{{ instance_name }}-sg"
+    description: Security Group for {{ instance_name }}
+    vpc_id: "{{ vpc_id }}"
+    region: "{{ region_name }}"
+    rules:
+      - proto: tcp
+        ports:
+          - 22
+        cidr_ip: "{{ ipify_public_ip }}/32"
+        rule_desc: "allow port 22 from {{ ipify_public_ip }}"
+      - proto: tcp
+        from_port: 80
+        to_port: 80
+        cidr_ip: 0.0.0.0/0
+        rule_desc: 'allow http through port 80 from anywhere'
+      - proto: tcp
+        from_port: 443
+        to_port: 443
+        cidr_ip: 0.0.0.0/0
+        rule_desc: 'allow https through port 443 from anywhere'
+  register: security_group

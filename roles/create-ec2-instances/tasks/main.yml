@@ -1,0 +1,11 @@
+---
+# tasks file for create-ec2-instances
+- name: Create jumpbox in default VPC
+  block:
+    - import_tasks: ec2-key-creation.yml
+    - import_tasks: obtain-network-info.yml
+    - import_tasks: secure-instance.yml
+    - import_tasks: create_instance.yml
+    - meta: refresh_inventory
+    - pause:
+        seconds: 30

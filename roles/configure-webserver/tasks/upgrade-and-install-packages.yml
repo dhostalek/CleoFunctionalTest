@@ -1,0 +1,52 @@
+---
+- name: Upgrade all yum packages
+  yum:
+    name: '*'
+    state: latest
+
+- name: Install packages
+  yum:
+    name: "{{ packages}}"
+  vars:
+    packages:
+      - docker
+      - python3
+      - python-pip
+      - wget
+
+
+- name: Install python packages
+  pip:
+    name: docker-py
+
+- name: Install nginx for Amazon 2 server
+  shell: 'sudo amazon-linux-extras install -y nginx1'
+
+- name: Install PHP for Wordpress
+  shell: 'sudo amazon-linux-extras enable php7.4'
+
+- name: Download Wordpress
+  shell: 'wget wordpress.org/latest.tar.gz'
+
+- name: Extract Wordpress package
+  shell: 'tar xvf latest.tar.gz'
+
+# Create new task file to configure Wordpress:
+# Move Wordpress folder to /var/www directory
+# create template for this with site vars
+# copy DB_NAME, DB_USER, and DB_PASSWORD 'wp-config.php' from vars & template
+# copy template to /etc/nginx/conf.d/mysite/conf, verify, & set directory permissions
+
+- name: Insert test index from template
+  template:
+    src: ../templates/index.html
+    dest: /usr/share/nginx/html/index.html
+
+- name: Start Services
+  service:
+    name: "{{ item }}"
+    state: started
+  with_items:
+    - nginx
+    - docker
+

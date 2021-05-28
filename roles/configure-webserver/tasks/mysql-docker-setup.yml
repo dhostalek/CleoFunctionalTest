@@ -1,0 +1,16 @@
+---
+- name: Create MySQL container
+  docker_container:
+    name: db
+    image: mysql:5.7
+    volumes:
+      - db_data:/var/lib/mysql
+    restart: true
+    ## test only, change to variables...
+    env:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: test
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    ports:
+      - "33306:3306"

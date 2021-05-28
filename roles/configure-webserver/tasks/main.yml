@@ -1,0 +1,6 @@
+---
+# tasks file for webserver config
+- name: Configure Webserver and MySQL in Docker for Wordpress
+  block:
+    - import_tasks: upgrade-and-install-packages.yml
+    - import_tasks: mysql-docker-setup.yml
